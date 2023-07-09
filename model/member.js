@@ -28,6 +28,8 @@ class Member {
         this.countryId = null;
         this.wishlistId = null;
         this.stripeCustomerId = null;
+        //Added the name of country
+        this.countryName = null;
     }
 }
 module.exports = Member;

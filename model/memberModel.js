@@ -89,7 +89,8 @@ var memberDB = {
                     return reject(err);
                 }
                 else {
-                    var sql = 'SELECT * FROM memberentity m WHERE m.EMAIL=?';
+                    //Changed the sql to include the current country that user is residing in
+                    var sql = 'SELECT m.*, c.NAME as COUNTRY_NAME FROM memberentity m JOIN countryentity c ON m.COUNTRY_ID = c.ID WHERE m.EMAIL = ?;';
                     conn.query(sql, [email], function (err, result) {
                         if (err) {
                             conn.end();
@@ -124,6 +125,8 @@ var memberDB = {
                             member.countryId = result[0].COUNTRY_ID;
                             member.wishlistId = result[0].WISHLIST_ID;
                             member.stripeCustomerId = result[0].STRIPECUSTOMERID;
+                            //Added country name from query
+                            member.countryName = result[0].COUNTRY_NAME;
                             conn.end();
                             return resolve(member);
                         }
