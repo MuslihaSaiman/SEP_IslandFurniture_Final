@@ -34,6 +34,32 @@
                     document.getElementById("serviceLevelAgreement").checked = true;
                 }
 
+                //Uses GET request to fetch data of current user with the use of getMember api
+                fetch(new Request("/api/getMember?" + new URLSearchParams({email: member.email}),
+                    { method: "GET", }
+                )).then(function (response){
+                    return response.json();
+                }).then(function (member) {
+                    document.getElementById("name").value = member.name;
+                    document.getElementById("email").value = member.email;
+                    document.getElementById("phone").value = member.phone;
+                    document.getElementById("address").value = member.address;
+                    document.getElementById("securityQuestion").value = member.securityQuestion;
+                    document.getElementById("securityAnswer").value = member.securityAnswer;
+                    document.getElementById("age").value = member.age;
+                    document.getElementById("income").value = member.income;
+
+                    //Displays the user's current country setting
+                    var countrySelect = document.getElementById("country");
+                    for (var i = 0; i < countrySelect.options.length; i++) {
+                        var option = countrySelect.options[i];
+                        if (option.value === member.countryName) {
+                            option.selected = true;
+                            break;
+                        }
+                    }
+                });
+
                 //Get Bought Items
                 fetch(new Request('/api/getBoughtItem/' + member.id,
                 {
@@ -170,6 +196,8 @@
                     console.log(error);
                 });
             }, false);
+
+            
 
             function addWorkDays(startDate, days) {
                 var dow = startDate.getDay();
