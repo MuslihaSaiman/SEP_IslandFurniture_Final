@@ -325,14 +325,14 @@ var memberDB = {
                     var address = details.address;
                     var securityQuestion = details.securityQuestion;
                     var securityAnswer = details.securityAnswer;
-                    var age = details.age;
+                       var age = details.age;
                     var income = details.income;
                     var sla = details.sla;
                     var password = details.password;
-                    if(password == null || password == '') {
+                    if(password == null || password == '') { //added country id as it was the only data missing for the particulars to update into the database
                         var sql = 'UPDATE memberentity SET NAME=?, PHONE=?, CITY=?, ADDRESS=?, SECURITYQUESTION=?,'
-                        + 'SECURITYANSWER=?, AGE=?, INCOME=?, SERVICELEVELAGREEMENT=? WHERE EMAIL=?';
-                        var sqlArgs = [name,phone,country,address,securityQuestion,securityAnswer,age,income,sla,email];
+                        + 'SECURITYANSWER=?, AGE=?, INCOME=?, COUNTRY_ID=(SELECT ID FROM countryentity WHERE NAME = ?), SERVICELEVELAGREEMENT=? WHERE EMAIL=?';
+                        var sqlArgs = [name,phone,country,address,securityQuestion,securityAnswer,age,income,country,sla,email];
                         conn.query(sql, sqlArgs, function (err, result) {
                             if (err) {
                                 conn.end();
@@ -348,8 +348,8 @@ var memberDB = {
                     else {
                         bcrypt.hash(password, 5, function(err, hash) {
                             var sql = 'UPDATE memberentity SET NAME=?, PHONE=?, CITY=?, ADDRESS=?, SECURITYQUESTION=?,'
-                                + 'SECURITYANSWER=?, AGE=?, INCOME=?, SERVICELEVELAGREEMENT=?, PASSWORDHASH=? WHERE EMAIL=?';
-                            var sqlArgs = [name,phone,country,address,securityQuestion,securityAnswer,age,income,sla,hash,email];
+                                + 'SECURITYANSWER=?, AGE=?, INCOME=?, COUNTRY_ID=(SELECT ID FROM countryentity WHERE NAME = ?),SERVICELEVELAGREEMENT=?, PASSWORDHASH=? WHERE EMAIL=?';
+                            var sqlArgs = [name,phone,country,address,securityQuestion,securityAnswer,age,income,country,sla,hash,email];
                             conn.query(sql, sqlArgs, function (err, result) {
                                 if (err) {
                                     conn.end();
