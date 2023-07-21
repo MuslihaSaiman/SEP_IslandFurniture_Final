@@ -16,9 +16,10 @@
                 }).then(function (data) {
                     var htmlTxt = '';
                 
-                        var product = data[0];
-                        //generate html for retail products
-                        htmlTxt += '\
+                       // var product = data[0];
+                       //generate html for retail products
+                        data.forEach((product) =>{
+                             htmlTxt += '\
                             <li class="col-md-3 col-sm-6 col-xs-12 product" style="padding-bottom: 1%; padding-top: 2%;">\
                                 <span class="product-thumb-info">\
                                     <span class="product-thumb-info-image">\
@@ -42,8 +43,10 @@
                                 </span>\
                             </li>';
                 
-                    document.getElementById("retailProductsDisplay").innerHTML = htmlTxt;
-                    document.getElementById("categoryTitle").innerHTML = cat;
+                        document.getElementById("retailProductsDisplay").innerHTML = htmlTxt;
+                        document.getElementById("categoryTitle").innerHTML = cat;
+                    })
+                       
                 }).catch(function(error) {
                     console.log(error);
                 });

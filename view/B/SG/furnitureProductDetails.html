@@ -19,14 +19,19 @@
                     return response.json();
                 }).then(function (furniture) {
                     //set furniture details
+                    //to display name of product
+                    document.getElementById("furnitureName").innerHTML = furniture.name;
+                    //to display price of product
+                    document.getElementById("price").innerHTML = ("$" + furniture.price + ".00");
                     document.getElementById("imgFurniture").setAttribute('src', furniture.imageURL);
-                
+                    //to display description of product
+                    document.getElementById("description").innerHTML = furniture.description;
                     if(memberEmail != null && memberEmail != '') {
                         document.getElementById("addToCartBtn").innerHTML = '<button class="btn btn-primary" onclick="addToCart(\''
                         + furniture.sku + '\',\'' + furniture.id + '\',' + furniture.price + ',\'' + furniture.name + '\',\''
                         + furniture.imageURL + '\')">Add To Cart</button>';
                     }
-               
+                
                     document.getElementById("categoryLink").innerHTML = furniture.category;
                     document.getElementById("categoryLink").setAttribute('href', '/B/' + countryPrefix
                         + '/furnitureCategory.html?cat=' + encodeURIComponent(furniture.category));
